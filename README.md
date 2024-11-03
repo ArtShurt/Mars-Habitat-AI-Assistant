@@ -2,8 +2,8 @@
 
 ## The tasks will be distributed to all the three collaborators in the form explained below:
 
--Daniel Cardenas Zambrano: _____ module
+-Daniel Cardenas Zambrano: Energy branch module 
 
--Jean Marcos Cardona: ______ module
+-Jean Marcos Cardona: Temperature branch module
 
--Oscar David Castro: ______ module
+-Oscar David Castro: Oxigen check module
