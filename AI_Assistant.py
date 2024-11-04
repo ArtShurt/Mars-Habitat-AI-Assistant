@@ -1,5 +1,7 @@
 #The AI ​​code was developed separately according to the three resources to be monitored, with their specific classes
 
+#-------------------------------------------------------------------------------------------------------------------------#
+
 #Code of the AI about Oxigen Levels 
 #Goals = Monitor Oxigen, Warn if the resource goes down and log data every hour and provide predictions based on historical data
 
