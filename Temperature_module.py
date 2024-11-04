@@ -30,4 +30,4 @@ class  system(object):
     plt.show()
     del self.log[:]
 
-    return average_change3
+    return average_change
