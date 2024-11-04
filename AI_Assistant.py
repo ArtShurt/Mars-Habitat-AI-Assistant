@@ -10,12 +10,12 @@ import datetime
 import time
 
 class OxygenMonitor:
-    def __init__(self, critical_threshold=19.5, refill_threshold=20.0, refill_rate=1.0):
+    def __init__(self, initial_oxygen_level, critical_threshold=19.5, refill_threshold=20.0, refill_rate=1.0):
         #Initializes the OxygenMonitor with a critical threshold:
         # - Param critical_threshold: The minimum safe level of oxygen (in %)
         # - Param refill_threshold: The level at which oxygen starts refilling.
         # - Param refill_rate: The rate at which oxygen is replenished.
-        self.oxygen_level = 21.0  # Starting oxygen level (e.g., in % of air composition)
+        self.oxygen_level = initial_oxygen_level  #Set initial oxygen level based on user input (% of air composition)
         self.critical_threshold = critical_threshold
         self.refill_threshold = refill_threshold
         self.refill_rate = refill_rate
@@ -71,7 +71,8 @@ class OxygenMonitor:
 
 #Main code to simulate the monitoring process
 if __name__ == "__main__":
-    oxygen_monitor = OxygenMonitor(critical_threshold=19.5, refill_threshold=20.0, refill_rate=1.0)  # Set a critical threshold (in %)
+    initial_oxygen = float(input("Enter the initial oxygen level (%): "))
+    oxygen_monitor = OxygenMonitor(initial_oxygen_level=initial_oxygen, critical_threshold=19.5, refill_threshold=20.0, refill_rate=1.0)  # Set a critical threshold (in %)
 
     #Simulating a monitoring process every hour
     print("----------------------------------------------------------------------")
