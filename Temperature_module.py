@@ -61,10 +61,10 @@ class  system(object):
         # Calculate the average consumption rate per hour
         energy_levels = [entry['energy_level'] for entry in self.log]
         consumption_rate = (energy_levels[0] - energy_levels[-1]) / len(self.log)
-        predicted_energy = self.energy_level - (consumption_rate * 5)
+        predicted_energy = self.actual_value - (consumption_rate * 5)
         return max(predicted_energy, 0)  # Do not allow energy level to drop below 0
     else:
-        return self.energy_level  # Not enough data to predict
+        return self.actual_value  # Not enough data to predict
    
   #method to create a graph with all the collected data  
   def collected_data_plot(self):
