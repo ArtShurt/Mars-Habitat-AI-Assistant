@@ -1,25 +1,50 @@
-from datetime import datetime as dt
+#calling needed libraries
+import datetime as dt
 import numpy as np
 import matplotlib.pyplot as plt
 import time as t
 import pandas as pd
 
+#creating the class (it will be oriented to temperature)
 class  system(object):
   def __init__(self, name):
-    self.name = name
-    self.actual_value = int(input(f"insert current {self.name} value: "))
-    self.critical_level =  int(input(f"insert critical {self.name} value: "))
-    self.log = []
+    self.name = name #setting name to the system
+    self.actual_value = int(input(f"Insert current {self.name}: ")) #setting actual value
+    self.min_critical_level =  int(input(f"Insert critical {self.name} (inferior): ")) #setting minimum value
+    self.max_critical_level =  int(input(f"Insert critical {self.name} (superior): ")) #setting maximum value
+    self.log = [] #log with data registered
 
+  #command to cool down the system
+  def cool_system(self):
+    self.actual_value -= float(input("How much is the system going to cool down?:" ))
+    
+  #command to heat up the system
+  def heat_system(self):
+    self.actual_value += float(input("How much is the system going to heat up?: " ))
+
+  #method to check the values of the system
   def monitoring(self):
-    self.actual_value = self.actual_value - (np.random.choice(np.linspace(-0.5, 0.5)))
-    self.log.append((dt.now(), self.actual_value))
-    if self.actual_value < self.critical_level:
-      return True
-      raise RuntimeError(f"The {self.name} system is under critical value")
-    else:
-      return False
-
+    self.actual_value = self.actual_value - (np.random.choice(np.linspace(-1, 1))) #simulating a change in the values of the system
+    self.log.append((dt.now(), self.actual_value)) #adding to registry the data collected
+    
+    #check if the values are safe
+    if self.actual_value < self.min_critical_level: #check if the system is below minimun selected value
+      print(f"The {self.name} system is under critical value!")
+      try:
+        self.heat_system
+      finally:
+        print("The system was heated succesfully")
+        
+    elif self.actual_value > self.max_critical_level: #check if the system is above maximum selected value
+      print(f"The {self.name} system is over critical value!")
+      try:
+        self.cool_system
+      finally:
+        print(f"The {self.name} system was cooled succesfully")  
+          
+    else: #the system is ok
+      print("The system its between allowed values")
+    
   def system_estimation(self):
     average_change = float(sum(self.log[i][1]-self.log[i-1][1] for i in range(0, int(len(self.log)/2)))/len(self.log))
     self.average_change = average_change
