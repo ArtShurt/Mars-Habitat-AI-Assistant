@@ -56,9 +56,15 @@ class  system(object):
     
   #method to estimate future values with collected data
   def system_estimation(self):
-    average_change = float(sum(self.log[i][1]-self.log[i-1][1] for i in range(1, len(self.log))))/len(self.log)
-    future_value_prediction = self.actual_value + average_change
-    print(f"The predicted next value is {round(future_value_prediction, 3)}°")
+
+    if len(self.log) > 1:
+        # Calculate the average consumption rate per hour
+        energy_levels = [entry['energy_level'] for entry in self.log]
+        consumption_rate = (energy_levels[0] - energy_levels[-1]) / len(self.log)
+        predicted_energy = self.energy_level - (consumption_rate * 5)
+        return max(predicted_energy, 0)  # Do not allow energy level to drop below 0
+    else:
+        return self.energy_level  # Not enough data to predict
    
   #method to create a graph with all the collected data  
   def collected_data_plot(self):
