@@ -1,11 +1,11 @@
-#The AI ​​code was developed separately according to the three resources to be monitored, with their specific classes
-#This file is to test the created class in an empty space
+# The AI code was developed separately according to the three resources to be monitored, with their specific classes
+# This file is to test the created class in an isolated space
 
-#importing the class
+# Importing the class
 from Energy_module import system
 
-#creating an instance of the energy module
+# Creating an instance of the energy module
 Energy = system("energy")
 
-#initializing simulation
+# Initializing simulation
 Energy.simulate()
