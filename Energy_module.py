@@ -3,6 +3,7 @@ import random
 from datetime import datetime, timedelta
 import pandas as pd
 
+
 # Define the EnergyMonitor class for the energy module
 class EnergyMonitor:
     def __init__(self, critical_threshold=20.0):
