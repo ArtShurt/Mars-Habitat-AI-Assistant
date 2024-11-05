@@ -9,17 +9,17 @@ import matplotlib.pyplot as plt
 class OxygenMonitor:
     def __init__(self, initial_oxygen_level, critical_threshold=19.5, refill_threshold=20.0, refill_rate=1.0):
         #Initializes the OxygenMonitor with a critical threshold:
-        # - Param critical_threshold: The minimum safe level of oxygen (in %)
-        # - Param refill_threshold: The level at which oxygen starts refilling.
-        # - Param refill_rate: The rate at which oxygen is replenished.
+        # - Parameter critical_threshold: The minimum safe level of oxygen (in %)
+        # - Parameter refill_threshold: The level at which oxygen starts refilling
+        # - Parameter refill_rate: The rate at which oxygen is replenished
         self.oxygen_level = initial_oxygen_level  #Set initial oxygen level based on user input (% of air composition)
         self.critical_threshold = critical_threshold
         self.refill_threshold = refill_threshold
         self.refill_rate = refill_rate
-        self.log = []  # List to store oxygen level logs
+        self.log = []  #List to store oxygen level logs
 
     def update_oxygen_level(self):
-        #Simulates a change in the oxygen level due to consumption or environmental changes.
+        #Simulates a change in the oxygen level due to consumption or environmental changes
         #If the oxygen level drops below the refill threshold, it begins to refill
         if self.oxygen_level < self.refill_threshold:
             self.oxygen_level += self.refill_rate #Refill oxygen to simulate a recovery or oxygen generation system
@@ -31,7 +31,7 @@ class OxygenMonitor:
         self.oxygen_level = max(self.oxygen_level, 0)  #Prevents negative levels
 
     def check_critical(self):
-        #Checks if the oxygen level is below the critical threshold. If it is, it prints a warning.
+        #Checks if the oxygen level is below the critical threshold. If it is, it prints a warning
         if self.oxygen_level < self.critical_threshold:
             print("WARNING: Oxygen level is below the critical threshold!")
             print(f"Current oxygen level: {self.oxygen_level:.2f}%")
@@ -39,14 +39,14 @@ class OxygenMonitor:
             print(f"Oxygen level is safe at {self.oxygen_level:.2f}%.")
 
     def log_data(self):
-        #Logs the current oxygen level with a timestamp.
+        #Logs the current oxygen level with a timestamp
         timestamp = datetime.datetime.now()
         self.log.append((timestamp, self.oxygen_level))
         print(f"Logged data: {timestamp} - Oxygen level: {self.oxygen_level:.2f}%")
 
     def predict_next_level(self):
-        #Predicts the next oxygen level based on the historical data.
-        #Uses the average consumption rate as the basis for the prediction.
+        #Predicts the next oxygen level based on the historical data
+        #Uses the average consumption rate as the basis for the prediction
         #Calculate average change in oxygen level from the log data
         if len(self.log) > 1:
             total_consumption = 0
@@ -66,7 +66,7 @@ class OxygenMonitor:
         self.predict_next_level()
         
     def plot_oxygen_levels(self):
-        #Plots the oxygen level over time using the logged data.      
+        #Plots the oxygen level over time using the logged data     
         times = [entry[0] for entry in self.log]
         levels = [entry[1] for entry in self.log]
         plt.figure(figsize=(10, 5))
