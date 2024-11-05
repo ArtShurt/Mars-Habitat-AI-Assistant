@@ -7,4 +7,4 @@ from Temperature_module import system
 temperature = system("temperature")
 
 #initializing simulation
-system.simulate("temperature")
+temperature.simulate()
