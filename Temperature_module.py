@@ -1,17 +1,19 @@
 #calling needed libraries
 from datetime import datetime as dt
-import numpy as np
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import time as t
 import pandas as pd
+import random as r
 
 #creating the class (it will be oriented to temperature)
 class  system(object):
   def __init__(self, name):
     self.name = name #setting name to the system
-    self.actual_value = int(input(f"Insert current {self.name}: ")) #setting actual value
-    self.min_critical_level =  int(input(f"Insert critical {self.name} (minimum): ")) #setting minimum value
-    self.max_critical_level =  int(input(f"Insert critical {self.name} (maximum): ")) #setting maximum value
+    self.actual_value = int(input(f"Insert current {self.name} (in °C): ")) #setting actual value
+    self.min_critical_level =  int(input(f"Insert critical {self.name} (minimum, in °C): ")) #setting minimum value
+    self.max_critical_level =  int(input(f"Insert critical {self.name} (maximum, in °C): ")) #setting maximum value
     self.log = [] #log with data registered
 
   #command to cool down the system
@@ -28,7 +30,7 @@ class  system(object):
 
   #method to check the values of the system
   def monitoring(self):
-    self.actual_value = self.actual_value - (np.random.choice(np.linspace(-2, 2))) #simulating a change in the values of the system
+    self.actual_value = self.actual_value - r.uniform(-2, 2) #simulating a change in the values of the system
     print(f"The actual {self.name} value is {round(self.actual_value, 3)}°") #printing the value obtained
     self.log.append((dt.now(), self.actual_value)) #adding to registry the data collected
     
@@ -56,22 +58,22 @@ class  system(object):
     
   #method to estimate future values with collected data
   def system_estimation(self):
-
-    if len(self.log) > 1:
-        # Calculate the average consumption rate per hour
-        energy_levels = [entry['energy_level'] for entry in self.log]
-        consumption_rate = (energy_levels[0] - energy_levels[-1]) / len(self.log)
-        predicted_energy = self.actual_value - (consumption_rate * 5)
-        return max(predicted_energy, 0)  # Do not allow energy level to drop below 0
-    else:
-        return self.actual_value  # Not enough data to predict
+    average_change = float(sum(self.log[i][1]-self.log[i-1][1] for i in range(1, len(self.log))))/len(self.log)
+    future_value_prediction = self.actual_value + average_change
+    print(f"The predicted next value is {round(future_value_prediction, 3)}°")
    
   #method to create a graph with all the collected data  
   def collected_data_plot(self):
-    x = [i for i in range(0, len(self.log))]
+    x = [i for i in range(0 , len(self.log))]
     y = [self.log[i][1] for i in range(0, len(self.log))]
-    data = plt.plot(x, y)
-    plt.show()
+    data = plt.plot(x, y, label="")
+    plt.grid(True)
+    plt.title("Graphic with collected data")
+    plt.xlabel("Time (Hours)")
+    plt.ylabel("Temperature (°C)")
+    plt.xlim(min(x), max(x) + 1)
+    plt.ylim(min(y), max(y) + 2)
+    plt.savefig("graphic.png")
     
   #method to create a data frame with all collected data
   def collected_data_frame(self):
@@ -81,10 +83,10 @@ class  system(object):
   
   #method to run a simulation over x hours
   def simulate(self):
-    x = int(input("How many hours you want to simulate? "))
+    x = int(input("How many hours do you want to simulate? "))
     print("-" * 50)
     t.sleep(2)
-    for i in range(1, x):
+    for i in range(0, x):
       try:
         self.monitoring()
         print("")
