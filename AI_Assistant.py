@@ -8,6 +8,7 @@
 import random
 import datetime
 import time
+import matplotlib.pyplot as plt
 
 class OxygenMonitor:
     def __init__(self, initial_oxygen_level, critical_threshold=19.5, refill_threshold=20.0, refill_rate=1.0):
@@ -67,6 +68,21 @@ class OxygenMonitor:
         self.check_critical()
         self.log_data()
         self.predict_next_level()
+        
+    def plot_oxygen_levels(self):
+        #Plots the oxygen level over time using the logged data.      
+        times = [entry[0] for entry in self.log]
+        levels = [entry[1] for entry in self.log]
+        plt.figure(figsize=(10, 5))
+        plt.plot(times, levels, marker='o', color='b', linestyle='-')
+        plt.xlabel('Time')
+        plt.ylabel('Oxygen Level (%)')
+        plt.title('Oxygen Level Over Time')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.grid()
+        plt.show()
+
 
 
 #Main code to simulate the monitoring process
@@ -80,3 +96,6 @@ if __name__ == "__main__":
         oxygen_monitor.run_monitoring_cycle()
         print("----------------------------------------------------------------------")
         time.sleep(1)  #Pause for 1 second instead of an hour for demo purposes
+        
+    #Ploting the oxygen levels after completing the monitoring cycles
+    oxygen_monitor.plot_oxygen_levels()
