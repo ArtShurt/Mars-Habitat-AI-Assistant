@@ -24,7 +24,7 @@ class  system(object):
 
   #method to check the values of the system
   def monitoring(self):
-    self.actual_value = self.actual_value - (np.random.choice(np.linspace(-1, 1))) #simulating a change in the values of the system
+    self.actual_value = self.actual_value - (np.random.choice(np.linspace(-2, 2))) #simulating a change in the values of the system
     self.log.append((dt.now(), self.actual_value)) #adding to registry the data collected
     
     #check if the values are safe
@@ -45,16 +45,58 @@ class  system(object):
     else: #the system is ok
       print("The system its between allowed values")
     
+  #method to estimate future values with collected data
   def system_estimation(self):
-    average_change = float(sum(self.log[i][1]-self.log[i-1][1] for i in range(0, int(len(self.log)/2)))/len(self.log))
-    self.average_change = average_change
+    average_change = float(sum(self.log[i][1]-self.log[i-1][1] for i in range(0, len(self.log))))/len(self.log)
+    future_value_prediction = self.actual_value + average_change
+    print(f"The predicted next value is {future_value_prediction}")
+   
+  #method to create a graph with all the collected data  
+  def collected_data_plot(self):
+    x = [i for i in range(0, len(self.log))]
     y = [self.log[i][1] for i in range(0, len(self.log))]
-    x = [i for i in range(0, len(self.log))]
     data = plt.plot(x, y)
-    x = [i for i in range(0, len(self.log))]
-    y = [average_change * x[i] + self.log[0][1] for i in range(0, len(x))]
-    data_2 = plt.plot(x, y)
     plt.show()
-    del self.log[:]
-
-    return average_change
+    
+  #method to create a data frame with all collected data
+  def collected_data_frame(self):
+    data_frame = pd.DataFrame(self.log)
+    print(data_frame)
+  
+  #method to run a simulation over x hours
+  def simulate(self):
+    x = float(input("How many hours you want to simulate? "))
+    for i in range(1, x):
+      try:
+        self.monitoring
+        self.system_estimation
+        print("-" * 50)
+      finally:
+        pass
+    
+    #asking the user to print a dataframe with all collected data  
+    while True:
+      df = input("Print dataframe? [Y/N]: ").upper()
+      if df == "Y":
+        try:
+          self.collected_data_frame
+        finally:
+          pass
+      elif df == "N":
+        break
+      else:
+        print("Invalid command, please try again")
+    
+    #asking the user to print a plot with all the data    
+    while True:
+      df = input("Print plot with data? [Y/N]: ").upper()
+      if df == "Y":
+        try:
+          self.collected_data_plot
+        finally:
+          pass
+      elif df == "N":
+        break
+      else:
+        print("Invalid command, please try again")
+        
